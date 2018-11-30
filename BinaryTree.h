@@ -3,7 +3,7 @@
 // A binary tree class using an embedded class for the nodes.
 // All code is implemented here in the .h file.
 
-// tom bailey   26 mar 01
+// Jacob Tuttle November 30, 2018
 
 // cleaned for lab use
 // tom bailey   0820  18 oct 2010

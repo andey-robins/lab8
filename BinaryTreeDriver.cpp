@@ -2,7 +2,7 @@
 
 // Exercise the BinaryTree class
 
-// tom bailey   26 mar 01
+// Jacob Tuttle November 30, 2018
 
 // Modified to implement a menu driven system that manipulates
 //   binary trees.
