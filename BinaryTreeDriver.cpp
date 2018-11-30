@@ -29,7 +29,7 @@
 using namespace std;
 
 
-void 
+void
    getRequest( string & request )
 {
    cout << "Enter request: ";
@@ -92,11 +92,20 @@ int
          cout << endl;
       }
 
+      else if (request == "postorder"){
+          vector<short> traversal = theTree.postorder();
+         cout << "postorder is ";
+         for (unsigned long i = 0; i < traversal.size(); i++) {
+             cout << traversal[i] << " ";
+         }
+         cout << endl;
+      }
+
       else
       {
-         cout << "Known requests: build <size>, display, size, " 
+         cout << "Known requests: build <size>, display, size, "
             << "height, leaves," << endl;
-         cout << "                leftmost, preorder, quit" << endl;
+         cout << "                leftmost, preorder, postorder, quit" << endl;
       }
 
       getRequest( request );

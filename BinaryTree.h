@@ -30,7 +30,7 @@ protected:
 
    // Since the BinaryNode class is embedded in the BinaryTree
    //   class, the public data members and methods of
-   //   BinaryNode are only visible within the BinaryTree class. 
+   //   BinaryNode are only visible within the BinaryTree class.
    //   Client code cannot see BinaryNode object data members
    //   or methods.
    class BinaryNode
@@ -41,11 +41,11 @@ protected:
       BinaryNode * right_;
 
    public:
-      BinaryNode( short entry = 0, 
-         BinaryNode* left = NULL, 
+      BinaryNode( short entry = 0,
+         BinaryNode* left = NULL,
          BinaryNode* right = NULL )
-         : entry_( entry ), 
-         left_( left ), 
+         : entry_( entry ),
+         left_( left ),
          right_( right )
       { }
 
@@ -105,6 +105,7 @@ public:
    short leftmost() const;
 
    std::vector< short > preorder() const;
+   std::vector<short> postorder() const;
 
 
 private:
@@ -123,7 +124,7 @@ private:
    // helper functions
 
    // Helper functions process a subtree.
-   // Each helper function is called by a public function 
+   // Each helper function is called by a public function
    //   that fulfills a request to process the entire
    //   tree by calling the helper function that processes a
    //   subtree referenced by a pointer to its root node.
@@ -135,7 +136,7 @@ private:
    static void destroy( BinaryNode * & subtree );
 
 
-   // Build a random shaped tree of size nodes. 
+   // Build a random shaped tree of size nodes.
    //   The tree data values start with entry.
    //   subtree is set to point to this tree.
    //   entry is increased by size.
@@ -147,7 +148,7 @@ private:
    // Use a line by line display, order nodes from left to
    //   right, draw connecting lines.
    // Preface each line of the display with prefix.
-   static void displayLeft( std::ostream & outfile, 
+   static void displayLeft( std::ostream & outfile,
       BinaryNode * subtree, std::string prefix );
 
    // This subtree is a right subtree.
@@ -155,7 +156,7 @@ private:
    // Use a line by line display, order nodes from left to
    //   right, draw connecting lines.
    // Preface each line of the display with prefix.
-   static void displayRight( std::ostream & outfile, 
+   static void displayRight( std::ostream & outfile,
       BinaryNode * subtree, std::string prefix );
 
 
@@ -174,7 +175,7 @@ private:
 
 
    // pre:  this BinaryTree subtree is not empty.
-   // Return the value in the leftmost node in the tree 
+   // Return the value in the leftmost node in the tree
    //   accessed by subtree.
    static short leftmost( const BinaryNode * subtree );
 
@@ -182,8 +183,14 @@ private:
    // Write the values stored in the tree accessed by
    //   subtree.  Write the values to outfile.  Write the
    //   values in preorder.
-   static void preorder( std::vector< short > & traversal, 
+   static void preorder( std::vector< short > & traversal,
       const BinaryNode * subtree );
+
+  static void inorder( std::vector< short > & traversal,
+     const BinaryNode * subtree );
+
+ static void postorder( std::vector< short > & traversal,
+    const BinaryNode * subtree );
 };
 
 
@@ -196,7 +203,7 @@ int BinaryTree::btEntry_ = 1;
 
 // The no-parameter constructor creates an empty tree.
 BinaryTree:: BinaryTree()
-   : tree_( NULL ) 
+   : tree_( NULL )
 {
 }
 
@@ -212,16 +219,16 @@ BinaryTree:: ~BinaryTree()
 // Each method is converted to a call to one of the helper
 //   functions.  The pointer to the tree root BinaryNode, tree_,
 //   is passed to the helper function as an additional
-//   parameter.  The additional parameter changes the 
-//   signature, so the same method/function name can be 
+//   parameter.  The additional parameter changes the
+//   signature, so the same method/function name can be
 //   used.  The helper functions do not need access to the
 //   entire tree, so they are declared static, meaning the
-//   object pointer passed to non-static methods is not 
+//   object pointer passed to non-static methods is not
 //   passed to these helper methods.
 
 
 // Build a randomly shaped tree of size nodes.
-void 
+void
    BinaryTree:: build( long size )
 {
    destroy( tree_ );
@@ -233,7 +240,7 @@ void
 // The node values are ordered using an inorder traversal.
 // Node values are indented by the depth of the node to display
 //   the shape of the tree.
-void 
+void
    BinaryTree:: display( std::ostream& outfile ) const
 {
    std::string prefix;
@@ -250,28 +257,28 @@ void
 }
 
 
-long 
+long
    BinaryTree:: height() const
 {
    return  height( tree_ );
 }
 
 
-long 
+long
    BinaryTree:: size() const
 {
    return  size( tree_ );
 }
 
 
-long 
+long
    BinaryTree:: leaves() const
 {
    return  leaves( tree_ );
 }
 
 
-short 
+short
    BinaryTree:: leftmost() const
 {
    return  leftmost( tree_ );
@@ -286,11 +293,19 @@ std::vector< short >
    return traversal;
 }
 
+std::vector< short >
+   BinaryTree:: postorder() const
+{
+   std::vector< short > traversal;
+   postorder( traversal, tree_ );
+   return traversal;
+}
+
 
 // code for helper functions
 
 // Delete all nodes connected to subtree
-void 
+void
    BinaryTree:: destroy( BinaryNode * & subtree )
 {
    if( subtree != NULL )
@@ -305,7 +320,7 @@ void
 
 // Build a random shaped tree of size nodes.
 // Construct the BinaryNodes in preorder sequence.
-void 
+void
    BinaryTree:: buildRandom( long size, BinaryNode * & subtree )
 {
    if( size == 0 )
@@ -328,8 +343,8 @@ void
 // This is a left subtree.
 // Use a line by line display, order nodes from left to
 //   right, draw connecting lines.
-void 
-   BinaryTree:: displayLeft( std::ostream & outfile, 
+void
+   BinaryTree:: displayLeft( std::ostream & outfile,
    BinaryNode * subtree, std::string prefix )
 {
    if( subtree == NULL )
@@ -349,8 +364,8 @@ void
 // This is a right subtree.
 // Use a line by line display, order nodes from left to
 //   right, draw connecting lines.
-void 
-   BinaryTree:: displayRight( std::ostream & outfile, 
+void
+   BinaryTree:: displayRight( std::ostream & outfile,
    BinaryNode * subtree, std::string prefix )
 {
    if( subtree == NULL )
@@ -366,36 +381,59 @@ void
 }
 
 
-long 
+long
    BinaryTree:: size( const BinaryNode * subtree )
 {
-   return  -1;
+    std::vector<short> v;
+    preorder(v, subtree);
+    return  v.size();
 }
 
 
-long 
+long
    BinaryTree:: height( const BinaryNode * subtree )
 {
-   return  -2;
+    if (subtree == NULL) {
+        return 0;
+    } else {
+        int left = height(subtree->left_);
+        int right = height(subtree->right_);
+
+        if (left > right) {
+            return left + 1;
+        } else {
+            return right + 1;
+        }
+    }
 }
 
 
-long 
+long
    BinaryTree:: leaves( const BinaryNode * subtree )
 {
-   return  -3;
+   if (subtree == NULL) {
+       return 0;
+   }
+
+   if (subtree->right_ == NULL && subtree->left_ == NULL) {
+       return 1;
+   } else {
+       return leaves(subtree->left_) + leaves(subtree->right_);
+   }
 }
 
 
-short 
+short
    BinaryTree:: leftmost( const BinaryNode * subtree )
 {
-   return -4;
+    std::vector<short> v;
+    inorder(v, subtree);
+   return v[0];
 }
 
 
 void
-   BinaryTree:: preorder( std::vector< short > & traversal, 
+   BinaryTree:: preorder( std::vector< short > & traversal,
       const BinaryNode * subtree )
 {
    if( subtree != NULL )
@@ -406,5 +444,28 @@ void
    }
 }
 
-#endif
+void
+   BinaryTree:: inorder( std::vector< short > & traversal,
+      const BinaryNode * subtree )
+{
+   if( subtree != NULL )
+   {
+      inorder( traversal, subtree->left_ );
+      traversal.push_back( subtree->entry_ );
+      inorder( traversal, subtree->right_ );
+   }
+}
 
+void
+   BinaryTree:: postorder( std::vector< short > & traversal,
+      const BinaryNode * subtree )
+{
+   if( subtree != NULL )
+   {
+      postorder( traversal, subtree->left_ );
+      postorder( traversal, subtree->right_ );
+      traversal.push_back( subtree->entry_ );
+   }
+}
+
+#endif
